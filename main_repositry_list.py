@@ -5,7 +5,7 @@ from random import randint
 from subprocess import Popen
 from random import choice
 
-REPOSITORY = 'https://github.com/0627Rorbot/evidence-React-node-.git'
+# REPOSITORY = 'https://github.com/0627Rorbot/evidence-React-node-.git'
 REPOSITORIES = [
     'https://github.com/0627Rorbot/evidence-React-node-.git',
     'https://github.com/0627Rorbot/rickandmorty.git',
