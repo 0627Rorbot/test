@@ -1,25 +1,24 @@
 import os
-from datetime import datetime
+from datetime import datetime, timedelta
 from datetime import timedelta
 from random import randint
 from subprocess import Popen
 from random import choice
 
-START_DATE = datetime(2020, 3, 10)
-END_DATE   = datetime(2021, 4, 30)
 REPOSITORY = 'https://github.com/0627Rorbot/evidence-React-node-.git'
-# REPOSITORIES = [
-#     'https://github.com/0627Rorbot/evidence-React-node-.git',
-#     'https://github.com/0627Rorbot/rickandmorty.git',
-#     'https://github.com/0627Rorbot/Python-VR_First.git',
-#     'https://github.com/0627Rorbot/Json_to_image_Babric.js.git',
-#     'https://github.com/0627Rorbot/Face_recognize_Python_Html.git',
-#     'https://github.com/0627Rorbot/Face_recognize_PyQt5.git',
-#     'https://github.com/0627Rorbot/Lidar_3D_Visualization.git',
-#     'https://github.com/0627Rorbot/Face_Detection_And_Recognition.git',
-#     ]
+REPOSITORIES = [
+    'https://github.com/0627Rorbot/evidence-React-node-.git',
+    'https://github.com/0627Rorbot/rickandmorty.git',
+    'https://github.com/0627Rorbot/Python-VR_First.git',
+    'https://github.com/0627Rorbot/Json_to_image_Babric.js.git',
+    'https://github.com/0627Rorbot/Face_recognize_Python_Html.git',
+    'https://github.com/0627Rorbot/Face_recognize_PyQt5.git',
+    'https://github.com/0627Rorbot/Lidar_3D_Visualization.git',
+    'https://github.com/0627Rorbot/Face_Detection_And_Recognition.git',
+    ]
 
-MAX_COMMITS_PER_DAY = 3
+
+MAX_COMMITS_PER_DAY = 2
 WEEKEND_COMMIT = False
 YEAR_FREQUENCY_PERCENT = 80
 
@@ -91,35 +90,41 @@ commit_messages = [
 ]
 
 def main():
-    directory = START_DATE.strftime('%Y-%m-%d') + '_' + END_DATE.strftime('%Y-%m-%d')
-    
-    if REPOSITORY is not None:
-        start = REPOSITORY.rfind('/') + 1
-        end = REPOSITORY.rfind('.')
-        directory = REPOSITORY[start:end]
-    os.mkdir(directory)
-    # os.chdir(directory)
-    run(['git', 'init'])
+    START_DATE = datetime(2020, 3, 1)
 
-    n = 0
-    day = START_DATE
-    while day < END_DATE:
-        day = START_DATE + timedelta(n)
-        if (not WEEKEND_COMMIT or day.weekday() < 5) \
-                and randint(0, 100) < YEAR_FREQUENCY_PERCENT:
-            for commit_time in (day + timedelta(minutes=m)
-                for m in range(contributions_per_day())):
-                    contribute(commit_time)
-        n = n + 1
+    for REPOSITORY in REPOSITORIES:        
+        END_DATE = START_DATE + timedelta(days=150)
 
-    if REPOSITORY is not None:
-        run(['git', 'remote', 'add', 'origin', REPOSITORY])
-        run(['git', 'branch', '-M', 'main'])
-        run(['git', 'push', '-u', 'origin', 'main'])
+        directory = START_DATE.strftime('%Y-%m-%d') + '_' + END_DATE.strftime('%Y-%m-%d')
 
-    print('\nRepository generation is completed successfully')
+        if REPOSITORY is not None:
+            start = REPOSITORY.rfind('/') + 1
+            end = REPOSITORY.rfind('.')
+            directory = REPOSITORY[start:end]
+        os.mkdir(directory)
+        # os.chdir(directory)
+        run(['git', 'init'])
+
+        n = 0
+        day = START_DATE
+        while day < END_DATE:
+            day = START_DATE + timedelta(n)
+            if (not WEEKEND_COMMIT or day.weekday() < 5) \
+                    and randint(0, 100) < YEAR_FREQUENCY_PERCENT:
+                for commit_time in (day + timedelta(minutes=m)
+                    for m in range(contributions_per_day())):
+                        contribute(commit_time)
+            n = n + 1
+
+        if REPOSITORY is not None:
+            run(['git', 'remote', 'add', 'origin', REPOSITORY])
+            run(['git', 'branch', '-M', 'main'])
+            run(['git', 'push', '-u', 'origin', 'main'])
+
+        print('\nRepository generation is completed successfully')
+
+        START_DATE = END_DATE + timedelta(days=30)
         
-
 
 def contribute(date):
     with open(os.path.join(os.getcwd(), 'helper.js'), 'a') as file:
@@ -137,7 +142,6 @@ def run(commands):
 
 def message(date):
     return date.strftime('Contribution: %Y-%m-%d %H:%M')
-
 
 def contributions_per_day():
     return randint(1, MAX_COMMITS_PER_DAY)
