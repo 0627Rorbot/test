@@ -6,8 +6,8 @@ from subprocess import Popen
 from random import choice
 
 START_DATE = datetime(2020, 3, 10)
-END_DATE   = datetime(2020, 4, 30)
-REPOSITORY = 'https://github.com/0627Rorbot/test.git'
+END_DATE   = datetime(2021, 4, 30)
+REPOSITORY = 'https://github.com/0627Rorbot/evidence-React-node-.git'
 # REPOSITORIES = [
 #     'https://github.com/0627Rorbot/evidence-React-node-.git',
 #     'https://github.com/0627Rorbot/rickandmorty.git',
