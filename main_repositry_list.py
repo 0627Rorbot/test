@@ -90,7 +90,7 @@ commit_messages = [
 ]
 
 def main():
-    START_DATE = datetime(2020, 3, 1)
+    START_DATE = datetime(2021, 10, 1)
 
     for REPOSITORY in REPOSITORIES:        
         END_DATE = START_DATE + timedelta(days=150)
